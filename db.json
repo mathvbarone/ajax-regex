@@ -1,0 +1,22 @@
+{
+  "contacts": [
+    {
+      "id": 1,
+      "name": "Leo",
+      "email": "leo@caelum.com",
+      "phone": "11935698745"
+    },
+    {
+      "name": "ewe",
+      "email": "wew",
+      "phone": "we",
+      "id": 2
+    },
+    {
+      "name": "aas",
+      "email": "sasa",
+      "phone": "asa",
+      "id": 3
+    }
+  ]
+}
