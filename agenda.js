@@ -36,7 +36,7 @@
         }
 
 
-        var emailRegex = new RegExp("[a-zA-Z\-'\s]+");
+        var emailRegex = new RegExp("^[A-z0-9\.\-]{1,}\@\w+\.[A-z]{2,3}(\.[a-z]{2})?$");
         if (emailRegex.test(email.value)){
           email.classList.remove("error");
           data[email.id]=email.value;
@@ -46,8 +46,8 @@
         }
       
 
-
-        var phoneRegex = new RegExp("[a-zA-Z\-'\s]+");
+        var phoneRegex = new RegExp("^\(?\d{2}\)?\d{4,5}\-?\d{4}$");
+        // var phoneRegex = new RegExp("\(?\d{2}\)?\d{4,5}\-?\d{4}");
         if (phoneRegex.test(phone.value)){
           phone.classList.remove("error");
           data[phone.id]=phone.value;
