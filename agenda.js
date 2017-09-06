@@ -55,32 +55,29 @@
         }
 
 
-            //SE TIVER ERRO, DA FOCUS NO CAMPO QUE PRECISA SER PREENCHIDO
-            if(erros > 0){
-              document.querySelector(".error").focus();
-            }
-            //SE NÃO TIVER, ENVIA AS INFORMAÇÕES PARA A FUNÇÃO QUE SALVA INFORMAÇÕES
-            else{
-              console.log(data);
-              cleanFields();
-            }
+        //SE TIVER ERRO, DA FOCUS NO CAMPO QUE PRECISA SER PREENCHIDO
+        if(erros > 0){
+          // document.querySelector(".error").focus();
+        }
+        //SE NÃO TIVER, ENVIA AS INFORMAÇÕES PARA A FUNÇÃO QUE SALVA INFORMAÇÕES
+        else{
+          console.log(data);
+          cleanFields();
+        }
 
 
     };
 
-
-
     //FUNÇÃO QUE LIMPA OS CAMPOS
   const cleanFields = ()=> ui.inputs.forEach(field => field.value="");
-
-
-
-
 
     
       // CRIANDO FUNÇÃO DE INICIAÇÃO
       const initialize = function(){
         //MAPEANDO OS EVENTOS
+        // ui.fields.name.addEventListener('input', validateFields);
+
+
         ui.button.addEventListener("click", validateFields);
       }();
   
