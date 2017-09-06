@@ -11,6 +11,9 @@
     };
   
 
+    const name = ui.fields.name;
+    const email = ui.fields.email;
+    const phone = ui.fields.phone;
 
     // FUNÇÃO DE VALIDAÇÃO DOS CAMPOS
     const validateFields = function(e){
@@ -21,7 +24,7 @@
   
 
       // FUNÇÃO DE VALIDAÇÃO DO NOME
-        const name = ui.fields.name;
+
         var nameRegex = new RegExp("[a-zA-Z\-'\s]+");
 
         if (nameRegex.test(name.value)){
@@ -33,7 +36,6 @@
         }
 
 
-        const email = ui.fields.email;
         var emailRegex = new RegExp("[a-zA-Z\-'\s]+");
         if (emailRegex.test(email.value)){
           email.classList.remove("error");
@@ -44,7 +46,7 @@
         }
       
 
-        const phone = ui.fields.phone;
+
         var phoneRegex = new RegExp("[a-zA-Z\-'\s]+");
         if (phoneRegex.test(phone.value)){
           phone.classList.remove("error");
@@ -56,29 +58,30 @@
 
 
         //SE TIVER ERRO, DA FOCUS NO CAMPO QUE PRECISA SER PREENCHIDO
-        if(erros > 0){
-          // document.querySelector(".error").focus();
+        if(erros === 0){
+          ui.button.disabled = false;
+        }else{
+          // ui.button.classList.setAttribute("disabled", true);
         }
-        //SE NÃO TIVER, ENVIA AS INFORMAÇÕES PARA A FUNÇÃO QUE SALVA INFORMAÇÕES
-        else{
-          console.log(data);
-          cleanFields();
-        }
-
 
     };
 
+    const saveData = function(){
+      console.log(name.value, phone.value, email.value);
+    }
+
     //FUNÇÃO QUE LIMPA OS CAMPOS
   const cleanFields = ()=> ui.inputs.forEach(field => field.value="");
-
     
       // CRIANDO FUNÇÃO DE INICIAÇÃO
       const initialize = function(){
         //MAPEANDO OS EVENTOS
-        // ui.fields.name.addEventListener('input', validateFields);
 
+        ui.inputs.forEach(function(field){
+          field.addEventListener("input", validateFields);
+        });
 
-        ui.button.addEventListener("click", validateFields);
+        ui.button.addEventListener("click", saveData);
       }();
   
   })();
