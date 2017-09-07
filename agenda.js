@@ -16,61 +16,42 @@
     const phone = ui.fields.phone;
 
     // FUNÇÃO DE VALIDAÇÃO DOS CAMPOS
-    const validateFields = function(e) {
-        e.preventDefault();
-
+    const validateFields = () => {
         const data = {};
-        var erros = 0;
+        let erros = 0;
 
 
-        // FUNÇÃO DE VALIDAÇÃO DO NOME
+        const nameRegex = /[a-zA-Z\-'\s]+/;
+        const emailRegex = /^[A-z0-9\.\-]{1,}\@\w+\.[A-z]{2,3}(\.[a-z]{2})?$/;
+        const phoneRegex = /^(?:\()?[0-9]{2}(?:\))?\s?[0-9]{4,5}(?:-)?[0-9]{4}$/;
 
-        var nameRegex = /[a-zA-Z\-'\s]+/;
-
-        if (nameRegex.test(name.value)) {
-            name.classList.remove("error");
-            data[name.id] = name.value;
-        } else {
-            name.classList.add("error");
-            erros++;
+        const regexValidation = (regexValue, inputValue, input, inputId) => {
+            if (regexValue.test(inputValue)) {
+                input.classList.remove("error");
+                data[input.id] = input.value;
+            } else {
+                input.classList.add("error");
+                erros++;
+            }
         }
 
-
-
-        var emailRegex = /^[A-z0-9\.\-]{1,}\@\w+\.[A-z]{2,3}(\.[a-z]{2})?$/;
-        if (emailRegex.test(email.value)) {
-            email.classList.remove("error");
-            data[email.id] = email.value;
-        } else {
-            email.classList.add("error");
-            erros++;
-        }
-
-
-
-        var phoneRegex = /^(?:\()?[0-9]{2}(?:\))?\s?[0-9]{4,5}(?:-)?[0-9]{4}$/;
-        if (phoneRegex.test(phone.value)) {
-            phone.classList.remove("error");
-            data[phone.id] = phone.value;
-        } else {
-            phone.classList.add("error");
-            erros++;
-        }
-
+        regexValidation(nameRegex, name.value, name, name.id);
+        regexValidation(emailRegex, email.value, email, email.id);
+        regexValidation(phoneRegex, phone.value, phone, phone.id);
 
 
         //SE TIVER ERRO, DA FOCUS NO CAMPO QUE PRECISA SER PREENCHIDO
         if (erros === 0) {
             ui.button.disabled = false;
-        } else {
-            // ui.button.classList.setAttribute("disabled", true);
         }
 
     };
 
-    const saveData = function(e) {
+    const saveData = (e) => {
         e.preventDefault();
         console.log(name.value, phone.value, email.value);
+        cleanFields();
+        ui.button.disabled = true;
     }
 
     //FUNÇÃO QUE LIMPA OS CAMPOS
@@ -80,7 +61,7 @@
     const initialize = function() {
         //MAPEANDO OS EVENTOS
 
-        ui.inputs.forEach(function(field) {
+        ui.inputs.forEach(field => {
             field.addEventListener("input", validateFields);
         });
 
