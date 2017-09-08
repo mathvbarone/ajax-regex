@@ -11,10 +11,11 @@
         table: document.querySelector("tbody")
     };
 
-    // VARIÁVEIS DE ATALHO PROS INPUTS
+    // VARIÁVEIS DE ATALHO PROS INPUTS E BUTTON
     const name = ui.inputs.name;
     const email = ui.inputs.email;
     const phone = ui.inputs.phone;
+    const button = ui.button;
 
 
     // FUNÇÃO DE VALIDAÇÃO DOS CAMPOS
@@ -40,8 +41,8 @@
         regexValidation(emailRegex, email.value, email, email.id);
         regexValidation(phoneRegex, phone.value, phone, phone.id);
 
-        // VERIFICA SE EXISTE ALGUM ERRO, CASO NÃO EXISTa, HABILITA O BOTÃO
-        erros === 0 ? ui.button.disabled = false : '';
+        // VERIFICA SE EXISTE ALGUM ERRO, CASO NÃO EXISTA, HABILITA O BOTÃO
+        erros === 0 ? button.disabled = false : '';
 
     };
 
@@ -56,7 +57,7 @@
 
         console.log(data);
         cleanFields();
-        ui.button.disabled = true;
+        button.disabled = true;
     }
 
     //FUNÇÃO QUE LIMPA OS CAMPOS
