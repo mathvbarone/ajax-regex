@@ -46,7 +46,7 @@
 
     };
 
-    // FUNÇÃO RESPONSÁVEL POR SALVAR AS INFORMAÇÕES E ENVIAR PARA O BANCO DE DADOS
+    // FUNÇÃO RESPONSÁVEL POR SALVAR AS INFORMAÇÕES
     const saveData = (e) => {
         e.preventDefault();
 
@@ -55,9 +55,36 @@
             data[field.id] = field.value;
         });
 
-        console.log(data);
-        cleanFields();
-        button.disabled = true;
+        sendData(data);
+    }
+
+    // FUNÇÃO QUE ENVIA AS INFORMAÇÕES PARA O BANCO DE DADOS
+    const sendData = contact => {
+
+        // HEADER
+        const headers = new Headers();
+        headers.append("Content-type", "application/json");
+        //CONFIGURATION
+        const conf = {
+                method: "POST",
+                body: JSON.stringify(contact),
+                headers //headers = headers
+            }
+            // REQUISIÇÃO
+        fetch("http://localhost:3000/contacts", conf)
+
+        .then(res => {
+            if (res.ok) {
+                cleanFields();
+                button.disabled = true;
+                // listAll();
+            }
+        })
+
+        .catch(err => console.error(err, "O banco não esta respondendo :/"));
+        console.log(typeof(contact));
+
+
     }
 
     //FUNÇÃO QUE LIMPA OS CAMPOS
@@ -71,7 +98,7 @@
         });
 
         // INICIANDO A FUNCAO DE ENVIO DAS INFORMAÇÕES PARA  BANCO DE DADOS
-        ui.button.addEventListener("click", saveData);
+        button.addEventListener("click", saveData);
     }();
 
 })();
