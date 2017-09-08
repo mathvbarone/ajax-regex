@@ -1,4 +1,5 @@
-(function() {
+(() => {
+    // DECLARANDO AS VARIÁVEIS RELACIONADAS À INTERFACE
     const ui = {
         fields: document.querySelectorAll("input"),
         inputs: {
@@ -10,19 +11,22 @@
         table: document.querySelector("tbody")
     };
 
-
+    // VARIÁVEIS DE ATALHO PROS INPUTS
     const name = ui.inputs.name;
     const email = ui.inputs.email;
     const phone = ui.inputs.phone;
+
 
     // FUNÇÃO DE VALIDAÇÃO DOS CAMPOS
     const validateFields = () => {
         let erros = 0;
 
+        // VARIÁVEIS DAS EXPRESSÕES REGULARES
         const nameRegex = /[a-zA-Z\-'\s]+/;
         const emailRegex = /^[A-z0-9\.\-]{1,}\@\w+\.[A-z]{2,3}(\.[a-z]{2})?$/;
         const phoneRegex = /^(?:\()?[0-9]{2}(?:\))?\s?[0-9]{4,5}(?:-)?[0-9]{4}$/;
 
+        // FUNÇÃO DE VALIDAÇÃO DOS CAMPOS BASEADO NAS EXPRESSÕES REGULARES
         const regexValidation = (regexValue, inputValue, input, inputId) => {
             if (regexValue.test(inputValue)) {
                 input.classList.remove("error");
@@ -36,14 +40,12 @@
         regexValidation(emailRegex, email.value, email, email.id);
         regexValidation(phoneRegex, phone.value, phone, phone.id);
 
-
-        //SE TIVER ERRO, DA FOCUS NO CAMPO QUE PRECISA SER PREENCHIDO
-        if (erros === 0) {
-            ui.button.disabled = false;
-        }
+        // VERIFICA SE EXISTE ALGUM ERRO, CASO NÃO EXISTa, HABILITA O BOTÃO
+        erros === 0 ? ui.button.disabled = false : '';
 
     };
 
+    // FUNÇÃO RESPONSÁVEL POR SALVAR AS INFORMAÇÕES E ENVIAR PARA O BANCO DE DADOS
     const saveData = (e) => {
         e.preventDefault();
 
@@ -62,12 +64,12 @@
 
     // CRIANDO FUNÇÃO DE INICIAÇÃO
     const initialize = function() {
-        //MAPEANDO OS EVENTOS
-
+        // INICIANDO A FUNÇÃO DE VALIDAÇÃO DOS CAMPOS
         ui.fields.forEach(field => {
             field.addEventListener("input", validateFields);
         });
 
+        // INICIANDO A FUNCAO DE ENVIO DAS INFORMAÇÕES PARA  BANCO DE DADOS
         ui.button.addEventListener("click", saveData);
     }();
 
