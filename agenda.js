@@ -1,7 +1,7 @@
 (function() {
     const ui = {
-        inputs: document.querySelectorAll("input"),
-        fields: {
+        fields: document.querySelectorAll("input"),
+        inputs: {
             name: document.querySelector(".name"),
             email: document.querySelector(".email"),
             phone: document.querySelector(".phone")
@@ -11,15 +11,13 @@
     };
 
 
-    const name = ui.fields.name;
-    const email = ui.fields.email;
-    const phone = ui.fields.phone;
+    const name = ui.inputs.name;
+    const email = ui.inputs.email;
+    const phone = ui.inputs.phone;
 
     // FUNÇÃO DE VALIDAÇÃO DOS CAMPOS
     const validateFields = () => {
-        const data = {};
         let erros = 0;
-
 
         const nameRegex = /[a-zA-Z\-'\s]+/;
         const emailRegex = /^[A-z0-9\.\-]{1,}\@\w+\.[A-z]{2,3}(\.[a-z]{2})?$/;
@@ -28,7 +26,6 @@
         const regexValidation = (regexValue, inputValue, input, inputId) => {
             if (regexValue.test(inputValue)) {
                 input.classList.remove("error");
-                data[input.id] = input.value;
             } else {
                 input.classList.add("error");
                 erros++;
@@ -49,19 +46,25 @@
 
     const saveData = (e) => {
         e.preventDefault();
-        console.log(name.value, phone.value, email.value);
+
+        data = [];
+        ui.fields.forEach(field => {
+            data[field.id] = field.value;
+        });
+
+        console.log(data);
         cleanFields();
         ui.button.disabled = true;
     }
 
     //FUNÇÃO QUE LIMPA OS CAMPOS
-    const cleanFields = () => ui.inputs.forEach(field => field.value = "");
+    const cleanFields = () => ui.fields.forEach(field => field.value = "");
 
     // CRIANDO FUNÇÃO DE INICIAÇÃO
     const initialize = function() {
         //MAPEANDO OS EVENTOS
 
-        ui.inputs.forEach(field => {
+        ui.fields.forEach(field => {
             field.addEventListener("input", validateFields);
         });
 
