@@ -50,7 +50,7 @@
     const saveData = (e) => {
         e.preventDefault();
 
-        data = [];
+        data = {};
         ui.fields.forEach(field => {
             data[field.id] = field.value;
         });
@@ -82,7 +82,7 @@
         })
 
         .catch(err => console.error(err, "O banco não esta respondendo :/"));
-        console.log(typeof(contact));
+        console.log(contact);
 
 
     }
