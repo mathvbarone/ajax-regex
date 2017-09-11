@@ -28,8 +28,8 @@
         const phoneRegex = /^(?:\()?[0-9]{2}(?:\))?\s?[0-9]{4,5}(?:-)?[0-9]{4}$/;
 
         // FUNÇÃO DE VALIDAÇÃO DOS CAMPOS BASEADO NAS EXPRESSÕES REGULARES
-        const regexValidation = (regexValue, inputValue, input, inputId) => {
-            if (regexValue.test(inputValue)) {
+        const regexValidation = (regexValue, input) => {
+            if (regexValue.test(input.value)) {
                 input.classList.remove("error");
             } else {
                 input.classList.add("error");
@@ -37,9 +37,9 @@
             }
         }
 
-        regexValidation(nameRegex, name.value, name, name.id);
-        regexValidation(emailRegex, email.value, email, email.id);
-        regexValidation(phoneRegex, phone.value, phone, phone.id);
+        regexValidation(nameRegex, name);
+        regexValidation(emailRegex, email);
+        regexValidation(phoneRegex, phone);
 
         // VERIFICA SE EXISTE ALGUM ERRO, CASO NÃO EXISTA, HABILITA O BOTÃO
         erros === 0 ? button.disabled = false : '';
@@ -70,20 +70,56 @@
                 body: JSON.stringify(contact),
                 headers //headers = headers
             }
-            // REQUISIÇÃO
+        // REQUISIÇÃO
         fetch("http://localhost:3000/contacts", conf)
 
         .then(res => {
             if (res.ok) {
                 cleanFields();
                 button.disabled = true;
-                // listAll();
+                listAll();
             }
         })
 
         .catch(err => console.error(err, "O banco não esta respondendo :/"));
-        console.log(contact);
+
     }
+
+    // FUNÇÃO QUE LISTA OS CONTATOS NA TABELA
+    const listAll = ()=>{
+        //HEADER
+        const headers = new Headers();
+        headers.append("Content-type", "application/json");
+
+        //CONFIGURATION
+        const conf = {
+            method: "GET",
+            headers
+        }
+
+        //FAZENDO A REQUISIÇÃO
+        fetch("http://localhost:3000/contacts", conf)
+        .then(res => {
+            return res.json();
+        })
+        .then(contactsList =>{
+            const html = [];
+            contactsList.forEach((contact)=>{
+                const line = `<tr>
+                                    <td>${contact.id}</td>
+                                    <td>${contact.name}</td>
+                                    <td>${contact.email}</td>
+                                    <td>${contact.phone}</td>
+                                    <td><a href="#" data-id="${contact.id}" title="Excluir">Excuir</a></td>
+                              </tr>`
+                html.push(line);
+            
+                ui.table.innerHTML = html.join("");
+            });
+        })
+        .catch(err=> console.error(err, "O Banco de Dados não está respondendo"));
+    }
+
 
     //FUNÇÃO QUE LIMPA OS CAMPOS
     const cleanFields = () => ui.fields.forEach(field => field.value = "");
@@ -94,6 +130,9 @@
         ui.fields.forEach(field => {
             field.addEventListener("input", validateFields);
         });
+
+        //LISTANDO OS CONTATOS
+        listAll();
 
         // INICIANDO A FUNCAO DE ENVIO DAS INFORMAÇÕES PARA  BANCO DE DADOS
         button.addEventListener("click", saveData);
