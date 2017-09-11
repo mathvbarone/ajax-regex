@@ -83,8 +83,6 @@
 
         .catch(err => console.error(err, "O banco não esta respondendo :/"));
         console.log(contact);
-
-
     }
 
     //FUNÇÃO QUE LIMPA OS CAMPOS
