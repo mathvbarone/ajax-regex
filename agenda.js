@@ -113,6 +113,13 @@
                                     <td><a href="#" data-id="${contact.id}" title="Excluir">Excuir</a></td>
                               </tr>`
                 html.push(line);
+
+                //MENSAGEM QUE APARECE QUANDO NÃO EXISTE NENHUM CONTATO CADASTRADO
+                if(contactsList.length === 0){
+                    html.push(`<tr>
+                                    <td colspan="5" class="empty">Não existem dados registrados</td>
+                               </tr>`);
+                }
             
                 ui.table.innerHTML = html.join("");
             });
