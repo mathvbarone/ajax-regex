@@ -110,21 +110,51 @@
                                     <td>${contact.name}</td>
                                     <td>${contact.email}</td>
                                     <td>${contact.phone}</td>
-                                    <td><a href="#" data-id="${contact.id}" title="Excluir">Excuir</a></td>
+                                    <td><a href="javascript:void(0)" data-id="${contact.id}" title="Excluir">Excluir</a></td>
                               </tr>`
                 html.push(line);
 
-                //MENSAGEM QUE APARECE QUANDO NÃO EXISTE NENHUM CONTATO CADASTRADO
-                if(contactsList.length === 0){
-                    html.push(`<tr>
-                                    <td colspan="5" class="empty">Não existem dados registrados</td>
-                               </tr>`);
-                }
-            
-                ui.table.innerHTML = html.join("");
             });
+                            //MENSAGEM QUE APARECE QUANDO NÃO EXISTE NENHUM CONTATO CADASTRADO
+                            console.log(contactsList.length);
+                            if(contactsList.length === 0){
+                                html.push(`<tr>
+                                                <td colspan="5" class="empty">Não existem dados registrados</td>
+                                           </tr>`);
+                            }
+                        
+                            ui.table.innerHTML = html.join("");
         })
+
+        //SE A REQUISIÇÃO NÃO RETORNAR
         .catch(err=> console.error(err, "O Banco de Dados não está respondendo"));
+    }
+
+    //FUNÇÃO QUE REMOVE CONTATOS DA LISTA
+
+    const removeContact = e=>{
+        const id = e.target.dataset.id;
+
+        if(id){
+
+            //HEADER
+            const headers = new Headers();
+            headers.append("Content-type", "application/json");
+
+            //CONFIGURATION
+            const conf = {
+                method: "DELETE",
+                headers
+            }
+
+            fetch(`http://localhost:3000/contacts/${id}`, conf)
+
+            .then(listAll)
+            //SE A REQUISIÇÃO NÃO RETORNAR
+            .catch(err=> console.error(err, "O Banco de Dados não está respondendo"));
+
+        }
+
     }
 
 
@@ -137,6 +167,8 @@
         ui.fields.forEach(field => {
             field.addEventListener("input", validateFields);
         });
+
+        ui.table.addEventListener("click", removeContact);
 
         //LISTANDO OS CONTATOS
         listAll();
